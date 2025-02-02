@@ -1,7 +1,7 @@
 #include "GameMenu.h"
 
 GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Menu") {
-    if (!font.loadFromFile("retro_font.ttf")) {
+    if (!font.loadFromFile("Debrosee-ALPnL.ttf")) {
         std::cerr << "Error loading font!\n";
     }
 

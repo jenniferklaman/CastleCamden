@@ -1,7 +1,7 @@
 #include "CharacterSelection.h"
 
 CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Character Selection") {
-    if (!font.loadFromFile("retro_font.ttf")) {
+    if (!font.loadFromFile("Debrosee-ALPnL.ttf")) {
         std::cerr << "Error loading font!\n";
     }
 
