@@ -3,7 +3,7 @@
 
 GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Menu"), selectedItem(0), state(MenuState::MAIN) {
     // Load font
-    if (!font.loadFromFile("Debrosee-ALPnL.ttf")) {
+    if (!font.loadFromFile("Pixel Times Bold.ttf")) {
         std::cerr << "Error loading font!\n";
     }
 
