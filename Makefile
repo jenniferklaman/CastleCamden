@@ -19,4 +19,4 @@ run: $(EXE)
 	./$(EXE)
 
 clean:
-	rm -f $(OBJ) $(EXE)
+	rm -f $(OBJ) $(EXE) build/Debug/*.o
