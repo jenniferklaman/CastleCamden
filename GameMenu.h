@@ -3,32 +3,69 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <stack>
+#include <memory>
 #include <iostream>
 
-// Enum to track menu state
-enum class MenuState { MAIN, LEVEL_SELECT, CHARACTER_SELECT };
+// Abstract base class for menus
+class Menu {
+public:
+    virtual void handleInput(sf::RenderWindow& window, std::stack<std::unique_ptr<Menu>>& menuStack) = 0;
+    virtual void render(sf::RenderWindow& window) = 0;
+    virtual ~Menu() = default;
+};
 
-class GameMenu {
+// Main menu class
+class MainMenu : public Menu {
 private:
-    sf::RenderWindow window;
     sf::Font font;
     sf::Text title;
     std::vector<sf::Text> menuItems;
-    std::vector<std::string> menuOptions = {"Start Game", "Character Select", "Exit"};
-    
-    int selectedItem;  // Keeps track of which menu item is highlighted
-    MenuState state;   // Tracks menu state
+    std::vector<std::string> menuOptions = {"Start Game", "How to Play", "Exit"};
+    int selectedItem = 0;
+
+public:
+    MainMenu();
+    void handleInput(sf::RenderWindow& window, std::stack<std::unique_ptr<Menu>>& menuStack) override;
+    void render(sf::RenderWindow& window) override;
+};
+
+// Start Game submenu
+class StartGameMenu : public Menu {
+private:
+    sf::Font font;
+    std::vector<sf::Text> startGameItems;
+    std::vector<std::string> startGameOptions = {"New Game", "Load Game", "Back"};
+    int selectedItem = 0;
+
+public:
+    StartGameMenu();
+    void handleInput(sf::RenderWindow& window, std::stack<std::unique_ptr<Menu>>& menuStack) override;
+    void render(sf::RenderWindow& window) override;
+};
+
+// How to Play screen
+class HowToPlayMenu : public Menu {
+private:
+    sf::Font font;
+    sf::Text instructions;
+    sf::Text backText;
+
+public:
+    HowToPlayMenu();
+    void handleInput(sf::RenderWindow& window, std::stack<std::unique_ptr<Menu>>& menuStack) override;
+    void render(sf::RenderWindow& window) override;
+};
+
+// GameMenu class that controls the menu system
+class GameMenu {
+private:
+    sf::RenderWindow window;
+    std::stack<std::unique_ptr<Menu>> menuStack;
 
 public:
     GameMenu();
     void run();
-
-private:
-    void handleInput();
-    void navigateMenu(int direction);
-    void selectOption();   // Function to handle selecting a menu option
-    void updateState();    // Function to handle transitions (level selection, etc.)
-    void render();
 };
 
 #endif

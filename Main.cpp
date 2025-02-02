@@ -1,9 +1,7 @@
 #include "GameMenu.h"
-#include "CharacterSelection.h"
 
 int main() {
     GameMenu menu;
-    menu.run();
-
+    menu.run();  // Start the game menu loop
     return 0;
 }
