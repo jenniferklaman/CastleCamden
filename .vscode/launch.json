@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/jenni/CamdenCastle",
-      "program": "c:/Users/jenni/CamdenCastle/build/Debug/outDebug",
+      "cwd": "c:/Users/jenni/castleCamden",
+      "program": "c:/Users/jenni/castleCamden/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
