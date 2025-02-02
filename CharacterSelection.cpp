@@ -1,3 +1,4 @@
+// CharacterSelection.cpp
 #include "CharacterSelection.h"
 
 CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Character Selection") {
@@ -16,11 +17,12 @@ CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Char
     }
 }
 
-void CharacterSelection::run() {
+std::string CharacterSelection::run() {
     while (window.isOpen()) {
         handleInput();
         render();
     }
+    return selectedCharacter;  // Return the selected character when window closes
 }
 
 void CharacterSelection::handleInput() {
@@ -29,15 +31,17 @@ void CharacterSelection::handleInput() {
         if (event.type == sf::Event::Closed) {
             window.close();
         }
+
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Up) {
+            if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up) {
                 navigateCharacters(-1);
             }
-            if (event.key.code == sf::Keyboard::Down) {
+            if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down) {
                 navigateCharacters(1);
             }
             if (event.key.code == sf::Keyboard::Enter) {
-                std::cout << "Character Selected: " << characters[selectedItem] << std::endl;
+                selectedCharacter = characters[selectedItem];
+                std::cout << "Character Selected: " << selectedCharacter << std::endl;
                 window.close();
             }
         }

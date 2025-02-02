@@ -1,3 +1,4 @@
+// CharacterSelection.h
 #ifndef CHARACTERSELECTION_H
 #define CHARACTERSELECTION_H
 
@@ -10,12 +11,13 @@ private:
     sf::RenderWindow window;
     sf::Font font;
     std::vector<sf::Text> characterItems;
-    std::vector<std::string> characters = {"Jen", "Eden", "Ale", "Alyssa"};
+    std::vector<std::string> characters = {"Eden", "Alyssa", "Ale", "Jen"};
     int selectedItem = 0;
+    std::string selectedCharacter;
 
 public:
     CharacterSelection();
-    void run();
+    std::string run(); // Returns the chosen character
 
 private:
     void handleInput();

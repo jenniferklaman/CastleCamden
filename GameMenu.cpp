@@ -1,6 +1,8 @@
 #include "GameMenu.h"
 #include "CharacterSelection.h"
+#include "Game.h"
 
+// ---------------- MAIN MENU ----------------
 MainMenu::MainMenu() {
     if (!font.loadFromFile("Pixel Times Bold.ttf")) {
         std::cerr << "Error loading font!\n";
@@ -31,12 +33,12 @@ void MainMenu::handleInput(sf::RenderWindow& window, std::stack<std::unique_ptr<
         }
 
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Up) {
+            if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up) {
                 menuItems[selectedItem].setFillColor(sf::Color::White);
                 selectedItem = (selectedItem - 1 + menuOptions.size()) % menuOptions.size();
                 menuItems[selectedItem].setFillColor(sf::Color::Red);
             } 
-            else if (event.key.code == sf::Keyboard::Down) {
+            else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down) {
                 menuItems[selectedItem].setFillColor(sf::Color::White);
                 selectedItem = (selectedItem + 1) % menuOptions.size();
                 menuItems[selectedItem].setFillColor(sf::Color::Red);
@@ -65,8 +67,7 @@ void MainMenu::render(sf::RenderWindow& window) {
     window.display();
 }
 
-// ------------------------------------
-
+// ---------------- START GAME MENU ----------------
 StartGameMenu::StartGameMenu() {
     if (!font.loadFromFile("Pixel Times Bold.ttf")) {
         std::cerr << "Error loading font!\n";
@@ -91,12 +92,12 @@ void StartGameMenu::handleInput(sf::RenderWindow& window, std::stack<std::unique
         }
 
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Up) {
+            if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up) {
                 startGameItems[selectedItem].setFillColor(sf::Color::White);
                 selectedItem = (selectedItem - 1 + startGameOptions.size()) % startGameOptions.size();
                 startGameItems[selectedItem].setFillColor(sf::Color::Red);
             } 
-            else if (event.key.code == sf::Keyboard::Down) {
+            else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down) {
                 startGameItems[selectedItem].setFillColor(sf::Color::White);
                 selectedItem = (selectedItem + 1) % startGameOptions.size();
                 startGameItems[selectedItem].setFillColor(sf::Color::Red);
@@ -104,7 +105,10 @@ void StartGameMenu::handleInput(sf::RenderWindow& window, std::stack<std::unique
             else if (event.key.code == sf::Keyboard::Enter) {
                 if (selectedItem == 0) {
                     CharacterSelection characterSelection;
-                    characterSelection.run();
+                    std::string chosenCharacter = characterSelection.run();
+                    
+                    Game game(chosenCharacter);
+                    game.run();
                 }
                 menuStack.pop();
             }
@@ -120,15 +124,14 @@ void StartGameMenu::render(sf::RenderWindow& window) {
     window.display();
 }
 
-// ------------------------------------
-
+// ---------------- HOW TO PLAY MENU ----------------
 HowToPlayMenu::HowToPlayMenu() {
     if (!font.loadFromFile("Pixel Times Bold.ttf")) {
         std::cerr << "Error loading font!\n";
     }
 
     instructions.setFont(font);
-    instructions.setString("Use arrow keys to navigate.\nPress Enter to select.");
+    instructions.setString("Use WASD or Arrow Keys to move.\nPress F to attack.");
     instructions.setCharacterSize(30);
     instructions.setPosition(100, 200);
 
@@ -157,8 +160,7 @@ void HowToPlayMenu::render(sf::RenderWindow& window) {
     window.display();
 }
 
-// ------------------------------------
-
+// ---------------- GAME MENU HANDLER ----------------
 GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Menu") {
     menuStack.push(std::make_unique<MainMenu>());
 }

@@ -1,29 +1,32 @@
-# Compiler
+# Compiler and flags
 CXX = g++
-
-# Compiler Flags
 CXXFLAGS = -std=c++17 -Wall -Wextra -I/mingw64/include
 
-# Linker Flags (SFML libraries)
+# Linker flags for SFML
 LDFLAGS = -L/mingw64/lib -lsfml-graphics -lsfml-window -lsfml-system
 
-# Source files
-SRC = Main.cpp GameMenu.cpp CharacterSelection.cpp
+# Source and object files
+SRC = Main.cpp GameMenu.cpp CharacterSelection.cpp Game.cpp Player.cpp Enemy.cpp
+OBJ = $(SRC:.cpp=.o)
 
-# Output executable name
-OUT = CastleCamden
+# Executable name
+EXE = CastleCamden
 
-# Default target (compiles the program)
-all: $(OUT)
+# Default build rule
+all: $(EXE)
 
-# Compilation command
-$(OUT): $(SRC)
-	$(CXX) $(CXXFLAGS) -o $(OUT) $(SRC) $(LDFLAGS)
+# Link executable
+$(EXE): $(OBJ)
+	$(CXX) $(OBJ) -o $(EXE) $(LDFLAGS)
 
-# Run the game
-run: all
-	./$(OUT)
+# Compile object files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Clean the compiled files
+# Run the game after compilation
+run: $(EXE)
+	./$(EXE)
+
+# Clean build files
 clean:
-	rm -f $(OUT)
+	rm -f $(OBJ) $(EXE)
