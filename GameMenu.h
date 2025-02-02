@@ -5,7 +5,8 @@
 #include <vector>
 #include <iostream>
 
-enum class MenuState { MAIN, CHARACTER_SELECT, LEVEL_SELECT };
+// Enum to track menu state
+enum class MenuState { MAIN, LEVEL_SELECT, CHARACTER_SELECT };
 
 class GameMenu {
 private:
@@ -14,8 +15,9 @@ private:
     sf::Text title;
     std::vector<sf::Text> menuItems;
     std::vector<std::string> menuOptions = {"Start Game", "Character Select", "Exit"};
-    int selectedItem = 0;
-    MenuState state = MenuState::MAIN;
+    
+    int selectedItem;  // Keeps track of which menu item is highlighted
+    MenuState state;   // Tracks menu state
 
 public:
     GameMenu();
@@ -24,6 +26,8 @@ public:
 private:
     void handleInput();
     void navigateMenu(int direction);
+    void selectOption();   // Function to handle selecting a menu option
+    void updateState();    // Function to handle transitions (level selection, etc.)
     void render();
 };
 
