@@ -15,11 +15,11 @@ private:
     sf::Text title;
     std::vector<sf::Text> menuItems;
     std::vector<std::string> menuOptions = {"Start Game", "Character Select", "How to Play", "Exit"};
-    
+
     int selectedItem;  // Keeps track of which menu item is highlighted
     MenuState state;   // Tracks menu state
 
-    // Background
+    // Single Background Texture and Sprite
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
 

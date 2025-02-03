@@ -7,12 +7,21 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
         std::cerr << "Error loading font!\n";
     }
 
-    // Load Background Texture (New Image)
+    // Load Single Background Texture
     if (!backgroundTexture.loadFromFile("assets/AskrBookVIICastle.png")) {  
         std::cerr << "Error loading background image!\n";
     }
     backgroundSprite.setTexture(backgroundTexture);
-    backgroundSprite.setScale(1.0f, 1.0f);
+
+    // Get window size
+    sf::Vector2u windowSize = window.getSize();
+    sf::Vector2u textureSize = backgroundTexture.getSize();
+
+    // Scale the background to fit the screen
+    float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
+    float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+    backgroundSprite.setScale(scaleX, scaleY);
+    backgroundSprite.setPosition(0, 0);
 
     // Title setup
     title.setFont(font);
@@ -32,9 +41,15 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
         menuItems.push_back(text);
     }
 
+    // Set up How to Play screen text
+    howToPlayText.setFont(font);
+    howToPlayText.setString("HOW TO PLAY:\n- Use UP/DOWN arrows or mouse to navigate.\n- Press ENTER or click to select.\n- Enjoy the game!\n\nPress ESC to go back.");
+    howToPlayText.setCharacterSize(30);
+    howToPlayText.setFillColor(sf::Color::White);
+    howToPlayText.setPosition(100.0f, 200.0f);
+
     window.setKeyRepeatEnabled(true);
 }
-
 
 void GameMenu::run() {
     while (window.isOpen()) {
@@ -49,6 +64,14 @@ void GameMenu::handleInput() {
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             window.close();
+        }
+
+        // Allow users to exit "How to Play"
+        if (state == MenuState::HOW_TO_PLAY) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                state = MenuState::MAIN; // Return to main menu
+            }
+            return; // Prevent other inputs from affecting the menu
         }
 
         if (state == MenuState::MAIN) {
@@ -71,9 +94,6 @@ void GameMenu::handleInput() {
                     selectOption();
                 }
             }
-        }
-        else if (state == MenuState::HOW_TO_PLAY && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-            state = MenuState::MAIN;
         }
     }
 }
@@ -128,30 +148,38 @@ void GameMenu::selectOption() {
 void GameMenu::updateState() {
     if (state == MenuState::LEVEL_SELECT) {
         std::cout << "🚀 Transitioning to Level Selection!\n";
-        state = MenuState::MAIN; // Placeholder: Implement level selection logic
+        state = MenuState::MAIN;
     } 
     else if (state == MenuState::CHARACTER_SELECT) {
         std::cout << "🎭 Transitioning to Character Selection!\n";
-        state = MenuState::MAIN; // Placeholder: Implement character selection logic
+        state = MenuState::MAIN;
     } 
     else if (state == MenuState::HOW_TO_PLAY) {
         std::cout << "📖 Showing How to Play screen!\n";
     }
 }
 
-
 void GameMenu::render() {
     window.clear();
-    window.draw(backgroundSprite);  // Draw Background
-    window.draw(title);
-    for (auto& item : menuItems) {
-        window.draw(item);
+    
+    // Draw Single Background
+    window.draw(backgroundSprite);
+
+    if (state == MenuState::HOW_TO_PLAY) {
+        renderHowToPlay();
+    } else {
+        window.draw(title);
+        for (auto& item : menuItems) {
+            window.draw(item);
+        }
     }
+
     window.display();
 }
 
 void GameMenu::renderHowToPlay() {
     window.clear();
+    window.draw(backgroundSprite);
     window.draw(howToPlayText);
     window.display();
 }
