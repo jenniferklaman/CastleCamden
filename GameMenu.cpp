@@ -8,7 +8,7 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
     }
 
     // Load Single Background Texture
-    if (!backgroundTexture.loadFromFile("assets/AskrBookVIICastle.png")) {  
+    if (!backgroundTexture.loadFromFile("assets/menuBackground.png")) {  
         std::cerr << "Error loading background image!\n";
     }
     backgroundSprite.setTexture(backgroundTexture);

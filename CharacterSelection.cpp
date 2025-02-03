@@ -7,7 +7,7 @@ CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Char
     }
 
     // Load Background Texture
-    if (!backgroundTexture.loadFromFile("assets/AskrBookVIICastle.png")) {  
+    if (!backgroundTexture.loadFromFile("assets/menuBackground.png")) {  
         std::cerr << "Error loading background image!\n";
     }
     backgroundSprite.setTexture(backgroundTexture);
