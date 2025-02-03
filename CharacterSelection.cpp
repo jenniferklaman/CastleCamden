@@ -2,7 +2,7 @@
 #include "CharacterSelection.h"
 
 CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Character Selection") {
-    if (!font.loadFromFile("Pixel Times Bold.ttf")) {
+    if (!font.loadFromFile("assets/PixelTimesBold.ttf")) {
         std::cerr << "Error loading font!\n";
     }
 
