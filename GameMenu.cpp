@@ -23,23 +23,38 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
     backgroundSprite.setScale(scaleX, scaleY);
     backgroundSprite.setPosition(0, 0);
 
-    // Title setup
+    // Title setup (shifted left)
     title.setFont(font);
     title.setString("Castle Camden");
-    title.setCharacterSize(50);
+    title.setCharacterSize(55);
     title.setFillColor(sf::Color::Yellow);
-    title.setPosition(250.0f, 50.0f);
+    title.setPosition(50.0f, 20.0f); // **Shifted left**
 
-    // Menu options setup
+    titleShadow.setFont(font);
+    titleShadow.setString("Castle Camden");
+    titleShadow.setCharacterSize(55);
+    titleShadow.setFillColor(sf::Color(0, 0, 0, 180)); // Shadow opacity for contrast
+    titleShadow.setPosition(53.0f, 23.0f); // Slight offset for shadow effect
+
+    // **Reduced Menu Text Size to Fit Inside Box**
+    float menuStartX = 320.0f; // Align menu text
+    float menuStartY = 200.0f;
+    float menuSpacing = 45.0f; // Slightly reduced spacing
+
     for (int i = 0; i < static_cast<int>(menuOptions.size()); i++) {
         sf::Text text;
         text.setFont(font);
         text.setString(menuOptions[i]);
-        text.setCharacterSize(40);
-        text.setPosition(350.0f, 200.0f + (i * 50.0f));
+        text.setCharacterSize(36);  // **Reduced from 42 → 36px**
         text.setFillColor((i == 0) ? sf::Color::Red : sf::Color::White);
+        text.setPosition(menuStartX, menuStartY + (i * menuSpacing));
         menuItems.push_back(text);
     }
+
+    // **Manually Increase the Menu Background Box Size**
+    menuBackground.setSize(sf::Vector2f(350.0f, 260.0f));  // **Adjusted width/height**
+    menuBackground.setFillColor(sf::Color(0, 0, 0, 220));  // **Darker for contrast**
+    menuBackground.setPosition(menuStartX - 20.0f, menuStartY - 20.0f);  // Adjusted position
 
     // Set up How to Play screen text
     howToPlayText.setFont(font);
@@ -50,6 +65,7 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
 
     window.setKeyRepeatEnabled(true);
 }
+
 
 void GameMenu::run() {
     while (window.isOpen()) {
@@ -168,7 +184,9 @@ void GameMenu::render() {
     if (state == MenuState::HOW_TO_PLAY) {
         renderHowToPlay();
     } else {
+        window.draw(titleShadow); // Shadow for better contrast
         window.draw(title);
+        window.draw(menuBackground); // Dark rectangle behind menu
         for (auto& item : menuItems) {
             window.draw(item);
         }
@@ -176,6 +194,7 @@ void GameMenu::render() {
 
     window.display();
 }
+
 
 void GameMenu::renderHowToPlay() {
     window.clear();

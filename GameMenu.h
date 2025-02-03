@@ -13,6 +13,8 @@ private:
     sf::RenderWindow window;
     sf::Font font;
     sf::Text title;
+    sf::Text titleShadow; // Shadow effect for the title
+    sf::RectangleShape menuBackground; // Background behind menu items
     std::vector<sf::Text> menuItems;
     std::vector<std::string> menuOptions = {"Start Game", "Character Select", "How to Play", "Exit"};
 
