@@ -1,10 +1,17 @@
-// CharacterSelection.cpp
 #include "CharacterSelection.h"
+#include <iostream>
 
 CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Character Selection") {
     if (!font.loadFromFile("assets/PixelTimesBold.ttf")) {
         std::cerr << "Error loading font!\n";
     }
+
+    // Load Background Texture
+    if (!backgroundTexture.loadFromFile("assets/AskrBookVIICastle.png")) {  
+        std::cerr << "Error loading background image!\n";
+    }
+    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setScale(1.0f, 1.0f);
 
     for (size_t i = 0; i < characters.size(); i++) {
         sf::Text text;
@@ -17,45 +24,9 @@ CharacterSelection::CharacterSelection() : window(sf::VideoMode(800, 600), "Char
     }
 }
 
-std::string CharacterSelection::run() {
-    while (window.isOpen()) {
-        handleInput();
-        render();
-    }
-    return selectedCharacter;  // Return the selected character when window closes
-}
-
-void CharacterSelection::handleInput() {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
-        }
-
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up) {
-                navigateCharacters(-1);
-            }
-            if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down) {
-                navigateCharacters(1);
-            }
-            if (event.key.code == sf::Keyboard::Enter) {
-                selectedCharacter = characters[selectedItem];
-                std::cout << "Character Selected: " << selectedCharacter << std::endl;
-                window.close();
-            }
-        }
-    }
-}
-
-void CharacterSelection::navigateCharacters(int direction) {
-    characterItems[selectedItem].setFillColor(sf::Color::White);
-    selectedItem = (selectedItem + direction + characters.size()) % characters.size();
-    characterItems[selectedItem].setFillColor(sf::Color::Red);
-}
-
 void CharacterSelection::render() {
     window.clear();
+    window.draw(backgroundSprite);  // Draw Background
     for (auto& item : characterItems) {
         window.draw(item);
     }

@@ -7,24 +7,12 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
         std::cerr << "Error loading font!\n";
     }
 
-    // Load Background Texture
-    if (!backgroundTexture.loadFromFile("assets/backgroundAnimation.png")) {  
+    // Load Background Texture (New Image)
+    if (!backgroundTexture.loadFromFile("assets/AskrBookVIICastle.png")) {  
         std::cerr << "Error loading background image!\n";
     }
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(1.0f, 1.0f);
-
-    // Load Custom Cursor (.cur file)
-    if (customCursor.loadFromSystem(sf::Cursor::Arrow)) {  // Temporary fallback if loading fails
-        std::cout << "Using default cursor as a fallback.\n";
-    }
-    
-    // Apply the custom cursor
-    if (!customCursor.loadFromPixels(reinterpret_cast<const sf::Uint8*>("assets/PortRoyale139.cur"), sf::Vector2u(32, 32), sf::Vector2u(0, 0))) {
-        std::cerr << "Error loading custom cursor!\n";
-    } else {
-        window.setMouseCursor(customCursor);
-    }
 
     // Title setup
     title.setFont(font);
@@ -44,16 +32,9 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
         menuItems.push_back(text);
     }
 
-    // Set up How to Play screen text
-    howToPlayText.setFont(font);
-    howToPlayText.setString("HOW TO PLAY:\n- Use UP/DOWN arrows or mouse to navigate.\n- Press ENTER or click to select.\n- Enjoy the game!\n\nPress ESC to go back.");
-    howToPlayText.setCharacterSize(30);
-    howToPlayText.setFillColor(sf::Color::White);
-    howToPlayText.setPosition(100.0f, 200.0f);
-
-    // Enable key repeat for smoother input
     window.setKeyRepeatEnabled(true);
 }
+
 
 void GameMenu::run() {
     while (window.isOpen()) {
@@ -161,17 +142,11 @@ void GameMenu::updateState() {
 
 void GameMenu::render() {
     window.clear();
-    
-    if (state == MenuState::HOW_TO_PLAY) {
-        renderHowToPlay();
-    } else {
-        window.draw(backgroundSprite);
-        window.draw(title);
-        for (auto& item : menuItems) {
-            window.draw(item);
-        }
+    window.draw(backgroundSprite);  // Draw Background
+    window.draw(title);
+    for (auto& item : menuItems) {
+        window.draw(item);
     }
-
     window.display();
 }
 

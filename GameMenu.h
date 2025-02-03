@@ -19,12 +19,9 @@ private:
     int selectedItem;  // Keeps track of which menu item is highlighted
     MenuState state;   // Tracks menu state
 
-    // Graphics elements
+    // Background
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
-
-    // Custom System Cursor
-    sf::Cursor customCursor;
 
     // How to Play Screen
     sf::Text howToPlayText;
@@ -37,10 +34,10 @@ private:
     void handleInput();
     void handleMouseInput(sf::Vector2i mousePos, bool clicked = false);
     void navigateMenu(int direction);
-    void selectOption();   // Function to handle selecting a menu option
-    void updateState();    // Function to handle transitions (level selection, etc.)
+    void selectOption();
+    void updateState();
     void render();
-    void renderHowToPlay(); // New function for rendering the "How to Play" screen
+    void renderHowToPlay();
 };
 
 #endif
