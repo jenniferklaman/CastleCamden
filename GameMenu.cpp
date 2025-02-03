@@ -36,24 +36,29 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
     titleShadow.setFillColor(sf::Color(0, 0, 0, 180)); // Shadow opacity for contrast
     titleShadow.setPosition(53.0f, 23.0f); // Slight offset for shadow effect
 
-    // **Reduced Menu Text Size to Fit Inside Box**
-    float menuStartX = 320.0f; // Align menu text
-    float menuStartY = 200.0f;
-    float menuSpacing = 45.0f; // Slightly reduced spacing
+    // Calculate total height of the menu items
+    float totalMenuHeight = (menuOptions.size() * 30) + ((menuOptions.size() - 1) * 45);  // 36px text size + 45px spacing
 
+    // Adjust background box size to fit all text
+    menuBackground.setSize(sf::Vector2f(350.0f, totalMenuHeight + 50));  // Extra padding around text
+    menuBackground.setFillColor(sf::Color(0, 0, 0, 220));  // Darker for contrast
+
+    // Center the menu vertically by adjusting the starting Y position
+    float menuStartY = (window.getSize().y - totalMenuHeight) / 2;
+    float menuStartX = 320.0f; // Align menu text
+
+    // Reduced Menu Text Size to Fit Inside Box
     for (int i = 0; i < static_cast<int>(menuOptions.size()); i++) {
         sf::Text text;
         text.setFont(font);
         text.setString(menuOptions[i]);
-        text.setCharacterSize(36);  // **Reduced from 42 → 36px**
+        text.setCharacterSize(30);  // **Reduced from 42 → 36px**
         text.setFillColor((i == 0) ? sf::Color::Red : sf::Color::White);
-        text.setPosition(menuStartX, menuStartY + (i * menuSpacing));
+        text.setPosition(menuStartX, menuStartY + (i * 45)); // Adjusted Y position for centering
         menuItems.push_back(text);
     }
 
-    // **Manually Increase the Menu Background Box Size**
-    menuBackground.setSize(sf::Vector2f(350.0f, 260.0f));  // **Adjusted width/height**
-    menuBackground.setFillColor(sf::Color(0, 0, 0, 220));  // **Darker for contrast**
+    // Set position for menu background box
     menuBackground.setPosition(menuStartX - 20.0f, menuStartY - 20.0f);  // Adjusted position
 
     // Set up How to Play screen text
@@ -65,7 +70,6 @@ GameMenu::GameMenu() : window(sf::VideoMode(800, 600), "Castle Camden - Main Men
 
     window.setKeyRepeatEnabled(true);
 }
-
 
 void GameMenu::run() {
     while (window.isOpen()) {
@@ -194,7 +198,6 @@ void GameMenu::render() {
 
     window.display();
 }
-
 
 void GameMenu::renderHowToPlay() {
     window.clear();
